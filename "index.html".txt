@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>Valentine's Date Quiz</title>
+  
+  <!-- Simple modern, clean styling -->
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background: #f2f2f2;
+      color: #333;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .quiz-container {
+      background: #fff;
+      max-width: 600px;
+      width: 100%;
+      margin: 20px auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      overflow: hidden;
+    }
+
+    header {
+      background: #f06c9b; /* A pinkish shade for Valentine's vibe */
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    .content {
+      padding: 20px;
+    }
+
+    /* Hide all steps by default */
+    .step {
+      display: none;
+    }
+
+    .active {
+      display: block;
+    }
+
+    /* Buttons */
+    .button {
+      display: inline-block;
+      margin: 10px 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: #f06c9b;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    .button:hover {
+      background-color: #e05589;
+    }
+
+    .button.secondary {
+      background-color: #ccc;
+      color: #333;
+    }
+    .button.secondary:hover {
+      background-color: #bbb;
+    }
+
+    /* Center content */
+    .center {
+      text-align: center;
+    }
+
+    /* Images for choices */
+    .choices {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .choice-item {
+      flex: 1 1 45%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 5px;
+      padding: 10px;
+      transition: all 0.3s;
+    }
+    .choice-item:hover {
+      background-color: #f9f9f9;
+    }
+    .choice-item.selected {
+      border: 2px solid #f06c9b;
+    }
+    .choice-item img {
+      max-width: 100%;
+      border-radius: 6px;
+      height: auto;
+      margin-bottom: 8px;
+      object-fit: cover;
+    }
+
+    /* Table styling for final step */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f9f9f9;
+    }
+
+    /* Responsive images and layout for mobile */
+    @media (max-width: 600px) {
+      .choice-item {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <header>
+      <h1>Valentine's Quiz</h1>
+    </header>
+
+    <div class="content">
+      <!-- Step 1: Ask if she'll be your Valentine -->
+      <div id="step1" class="step active center">
+        <h2>Dear Francesca, will you be my Valentines?</h2>
+        <div>
+          <button class="button" onclick="goToStep(2)">Of course</button>
+          <button class="button secondary" onclick="goToStep('sad')">I don't like you</button>
+        </div>
+      </div>
+
+      <!-- Sad response page -->
+      <div id="sadPage" class="step center">
+        <h2>It was worth a shot...</h2>
+        <p style="font-size: 5rem; margin-top: 20px;">😢</p>
+      </div>
+
+      <!-- Step 2: When? -->
+      <div id="step2" class="step center">
+        <h2>When?</h2>
+        <p>Enter the time that works for you.</p>
+        <input id="timeInput" type="text" placeholder="e.g. 7 PM" style="padding:10px; margin-top:10px;">
+        <br />
+        <button class="button" style="margin-top: 20px;" onclick="goToStep(3)">Next</button>
+      </div>
+
+      <!-- Step 3: Where? -->
+      <div id="step3" class="step center">
+        <h2>Where?</h2>
+        <p>Pick one of the following:</p>
+        <div class="choices" id="restaurantChoices">
+          <!-- Italian -->
+          <div class="choice-item" onclick="selectChoice('restaurant', 'Italian', this)">
+            <img src="https://via.placeholder.com/200x120?text=Italian" alt="Italian Restaurant">
+            <span>Italian</span>
+          </div>
+          <!-- Steakhouse -->
+          <div class="choice-item" onclick="selectChoice('restaurant', 'Steakhouse', this)">
+            <img src="https://via.placeholder.com/200x120?text=Steakhouse" alt="Steakhouse">
+            <span>Steakhouse</span>
+          </div>
+          <!-- Seafood -->
+          <div class="choice-item" onclick="selectChoice('restaurant', 'Seafood', this)">
+            <img src="https://via.placeholder.com/200x120?text=Seafood" alt="Seafood Restaurant">
+            <span>Seafood</span>
+          </div>
+          <!-- Indian -->
+          <div class="choice-item" onclick="selectChoice('restaurant', 'Indian', this)">
+            <img src="https://via.placeholder.com/200x120?text=Indian" alt="Indian Restaurant">
+            <span>Indian</span>
+          </div>
+        </div>
+        <button class="button" style="margin-top: 20px;" onclick="goToStep(4)">Next</button>
+      </div>
+
+      <!-- Step 4: Nightcap? -->
+      <div id="step4" class="step center">
+        <h2>Nightcap?</h2>
+        <p>Choose your preference:</p>
+        <div class="choices" id="nightcapChoices">
+          <!-- Yes -->
+          <div class="choice-item" onclick="selectChoice('nightcap', 'Yes', this)">
+            <img src="https://via.placeholder.com/200x120?text=Upscale+Bar" alt="Upscale Bar/Lounge">
+            <span>Yes</span>
+          </div>
+          <!-- No -->
+          <div class="choice-item" onclick="selectChoice('nightcap', 'No', this)">
+            <img src="https://via.placeholder.com/200x120?text=Bed" alt="Bed">
+            <span>No</span>
+          </div>
+        </div>
+        <button class="button" style="margin-top: 20px;" onclick="goToStep(5)">All done!</button>
+      </div>
+
+      <!-- Final Step: Thank you page -->
+      <div id="finalStep" class="step center">
+        <h2>Thank you for being such an incredible girlfriend.</h2>
+        <p>Here are your responses:</p>
+        <table>
+          <tr>
+            <th>Question</th>
+            <th>Answer</th>
+          </tr>
+          <tr>
+            <td>When?</td>
+            <td id="finalTime"></td>
+          </tr>
+          <tr>
+            <td>Where?</td>
+            <td id="finalRestaurant"></td>
+          </tr>
+          <tr>
+            <td>Nightcap?</td>
+            <td id="finalNightcap"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Store selected answers
+    let userAnswers = {
+      time: "",
+      restaurant: "",
+      nightcap: ""
+    };
+
+    // Utility function to show/hide steps
+    function goToStep(stepId) {
+      // Hide all steps
+      document.querySelectorAll('.step').forEach(step => {
+        step.classList.remove('active');
+      });
+
+      // If user clicked "I don't like you"
+      if (stepId === 'sad') {
+        document.getElementById('sadPage').classList.add('active');
+        return;
+      }
+
+      // Show the intended step
+      if (stepId === 2) {
+        document.getElementById('step2').classList.add('active');
+      } else if (stepId === 3) {
+        // Save time from step 2
+        const timeVal = document.getElementById('timeInput').value;
+        userAnswers.time = timeVal;
+        document.getElementById('step3').classList.add('active');
+      } else if (stepId === 4) {
+        document.getElementById('step4').classList.add('active');
+      } else if (stepId === 5) {
+        document.getElementById('finalStep').classList.add('active');
+        // Fill in final answers
+        document.getElementById('finalTime').innerText = userAnswers.time || "(No time entered)";
+        document.getElementById('finalRestaurant').innerText = userAnswers.restaurant || "(No selection)";
+        document.getElementById('finalNightcap').innerText = userAnswers.nightcap || "(No selection)";
+      } else {
+        // Step 1 by default
+        document.getElementById('step1').classList.add('active');
+      }
+    }
+
+    // Choice selection (restaurant, nightcap)
+    function selectChoice(type, value, element) {
+      // Clear existing selection
+      let containerId = (type === 'restaurant') ? 'restaurantChoices' : 'nightcapChoices';
+      document.getElementById(containerId).querySelectorAll('.choice-item').forEach(item => {
+        item.classList.remove('selected');
+      });
+      // Mark this as selected
+      element.classList.add('selected');
+      // Save user answer
+      userAnswers[type] = value;
+    }
+  </script>
+</body>
+</html>
